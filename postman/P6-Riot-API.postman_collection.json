@@ -1,0 +1,350 @@
+{
+  "info": {
+    "name": "P6 Riot REST API",
+    "description": "CRUD for users, RIOT, LeagueOfLegend, and Valorant. Start the local NestJS backend first. Create parents before foreign-key child records.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    },
+    {
+      "key": "riotRowId",
+      "value": "1"
+    },
+    {
+      "key": "lolId",
+      "value": "1"
+    },
+    {
+      "key": "valorantId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Register",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"p6_demo\",\n  \"password\": \"ChangeThisDemoPassword123!\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/register"
+      }
+    },
+    {
+      "name": "Login (saves access token)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const data = pm.response.json();",
+              "if (data.accessToken) pm.collectionVariables.set('accessToken', data.accessToken);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"p6_demo\",\n  \"password\": \"ChangeThisDemoPassword123!\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/login"
+      }
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "GET all users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users"
+          }
+        },
+        {
+          "name": "POST create user",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"p6_second_demo\",\n  \"password\": \"ChangeThisDemoPassword123!\"\n}"
+            },
+            "url": "{{baseUrl}}/users"
+          }
+        },
+        {
+          "name": "GET user by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/{{userId}}"
+          }
+        },
+        {
+          "name": "PUT update user",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"user\"\n}"
+            },
+            "url": "{{baseUrl}}/users/{{userId}}"
+          }
+        },
+        {
+          "name": "DELETE user",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/users/{{userId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "RIOT",
+      "item": [
+        {
+          "name": "GET all",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/RIOT"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"riot_id\": \"P6Demo#1234\"\n}"
+            },
+            "url": "{{baseUrl}}/RIOT"
+          }
+        },
+        {
+          "name": "GET by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/RIOT/{{riotRowId}}"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"riot_id\": \"P6Demo#5678\"\n}"
+            },
+            "url": "{{baseUrl}}/RIOT/{{riotRowId}}"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/RIOT/{{riotRowId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "LeagueOfLegend",
+      "item": [
+        {
+          "name": "GET all",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/LeagueOfLegend"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"riot_id\": 1,\n  \"summoner_name\": \"P6Summoner\",\n  \"summoner_level\": 25,\n  \"rank\": \"Unranked\"\n}"
+            },
+            "url": "{{baseUrl}}/LeagueOfLegend"
+          }
+        },
+        {
+          "name": "GET by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/LeagueOfLegend/{{lolId}}"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rank\": \"Silver\"\n}"
+            },
+            "url": "{{baseUrl}}/LeagueOfLegend/{{lolId}}"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/LeagueOfLegend/{{lolId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Valorant",
+      "item": [
+        {
+          "name": "GET all",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/Valorant"
+          }
+        },
+        {
+          "name": "POST create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"riot_id\": 1,\n  \"agent_name\": \"Jett\",\n  \"tier\": \"Unrated\"\n}"
+            },
+            "url": "{{baseUrl}}/Valorant"
+          }
+        },
+        {
+          "name": "GET by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/Valorant/{{valorantId}}"
+          }
+        },
+        {
+          "name": "PUT update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tier\": \"Silver\"\n}"
+            },
+            "url": "{{baseUrl}}/Valorant/{{valorantId}}"
+          }
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/Valorant/{{valorantId}}"
+          }
+        }
+      ]
+    }
+  ]
+}
